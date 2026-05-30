@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+sqlalchemy
+pandas
+streamlit
+numpy
+requests
+scikit-learn
+websockets
+pydeck
