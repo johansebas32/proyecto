@@ -12,9 +12,9 @@ from database import Base
 import datetime
 
 
-# =====================================================
+# ======================================================
 # VEHICULOS
-# =====================================================
+# ======================================================
 
 class VehiculoDB(Base):
     __tablename__ = "vehiculos"
@@ -46,26 +46,40 @@ class VehiculoDB(Base):
         default="Optimo"
     )
 
-    # ==========================
     # NUEVO
-    # Ruta asignada permanentemente
-    # ==========================
-
-    ruta_id = Column(
+    ruta_asignada_id = Column(
         Integer,
         ForeignKey("rutas.id"),
         nullable=True
     )
 
+    # posición matemática sobre la ruta
+    posicion_ruta = Column(
+        Float,
+        default=0.0
+    )
+
+    # 1 = ida
+    # -1 = regreso
+    sentido = Column(
+        Integer,
+        default=1
+    )
+
+    ocupacion_actual = Column(
+        Integer,
+        default=0
+    )
+
     estado_operacion = Column(
         String(20),
-        default="ACTIVO"
+        default="EN_SERVICIO"
     )
 
 
-# =====================================================
+# ======================================================
 # HISTORICO GPS
-# =====================================================
+# ======================================================
 
 class HistoricoRutaDB(Base):
     __tablename__ = "historico_rutas"
@@ -95,9 +109,9 @@ class HistoricoRutaDB(Base):
     )
 
 
-# =====================================================
+# ======================================================
 # CONDUCTORES
-# =====================================================
+# ======================================================
 
 class ConductorDB(Base):
     __tablename__ = "conductores"
@@ -131,9 +145,9 @@ class ConductorDB(Base):
     )
 
 
-# =====================================================
+# ======================================================
 # RUTAS
-# =====================================================
+# ======================================================
 
 class RutaDB(Base):
     __tablename__ = "rutas"
@@ -161,42 +175,31 @@ class RutaDB(Base):
         default=2900.0
     )
 
-    # =================================================
-    # Geometría
-    # =================================================
-
     geometria_ruta = Column(
         Text,
         nullable=True
     )
 
-    # =================================================
     # NUEVO
-    # Longitud total calculada
-    # =================================================
-
     distancia_km = Column(
         Float,
-        default=0.0
+        default=0
     )
 
-    # =================================================
-    # MATRIZ DE TRANSICION
-    # Algebra Lineal
-    #
-    # [[0.2,0.3],
-    #  [0.8,0.7]]
-    # =================================================
+    tiempo_estimado_min = Column(
+        Float,
+        default=0
+    )
 
-    matriz_transicion = Column(
-        Text,
-        nullable=True
+    demanda_promedio = Column(
+        Integer,
+        default=0
     )
 
 
-# =====================================================
+# ======================================================
 # PARADAS
-# =====================================================
+# ======================================================
 
 class ParadaDB(Base):
     __tablename__ = "paradas"
@@ -227,20 +230,15 @@ class ParadaDB(Base):
         default=0
     )
 
-    # =================================================
-    # NUEVO
-    # Peso estratégico
-    # =================================================
-
-    peso_demanda = Column(
-        Float,
-        default=1.0
+    demanda_historica = Column(
+        Integer,
+        default=0
     )
 
 
-# =====================================================
-# RELACION RUTA-PARADA
-# =====================================================
+# ======================================================
+# RUTA PARADAS
+# ======================================================
 
 class RutaParadaDB(Base):
     __tablename__ = "ruta_paradas"
@@ -269,9 +267,9 @@ class RutaParadaDB(Base):
     )
 
 
-# =====================================================
+# ======================================================
 # USUARIOS
-# =====================================================
+# ======================================================
 
 class UsuarioDB(Base):
     __tablename__ = "usuarios"
@@ -303,9 +301,9 @@ class UsuarioDB(Base):
     )
 
 
-# =====================================================
-# HISTORIAL VIAJES
-# =====================================================
+# ======================================================
+# VIAJES
+# ======================================================
 
 class HistorialViajesDB(Base):
     __tablename__ = "historial_viajes"
@@ -350,9 +348,9 @@ class HistorialViajesDB(Base):
     )
 
 
-# =====================================================
+# ======================================================
 # TELEMETRIA
-# =====================================================
+# ======================================================
 
 class TelemetriaBusDB(Base):
     __tablename__ = "telemetria_buses"
@@ -393,16 +391,6 @@ class TelemetriaBusDB(Base):
         default="VERDE"
     )
 
-    # =================================================
-    # NUEVO
-    # Progreso sobre ruta (0-100%)
-    # =================================================
-
-    progreso_ruta = Column(
-        Float,
-        default=0.0
-    )
-
     ultima_actualizacion = Column(
         DateTime,
         default=datetime.datetime.utcnow,
@@ -410,9 +398,9 @@ class TelemetriaBusDB(Base):
     )
 
 
-# =====================================================
+# ======================================================
 # ALERTAS
-# =====================================================
+# ======================================================
 
 class AlertaDB(Base):
     __tablename__ = "alertas_flota"

@@ -70,52 +70,173 @@ db.commit()
 print("✅ 20 paradas creadas")
 
 # =========================
-# RUTAS
+# RUTAS METROPOLITANAS REALES
 # =========================
 
-rutas_base = [
-    "Pereira Centro",
-    "Dosquebradas Viaducto",
-    "Santa Rosa Termales",
-    "La Virginia Valle",
-    "Marsella Cultura",
-    "Belén Café",
-    "Apía Vientos",
-    "Santuario Tatamá",
-    "Quinchía Villa",
-    "Guática Seda",
-    "Balboa Mirador",
-    "La Celia Naturaleza",
-    "Pueblo Rico Chocó",
-    "Mistrató Indígena"
+RUTAS_REALES = [
+
+    {
+        "nombre": "Cuba - Centro",
+        "codigo": "R-01",
+        "path": [
+            [-75.7310,4.7915],  # Cuba
+            [-75.7200,4.8000],
+            [-75.7050,4.8070],
+            [-75.6942,4.8135]   # Centro
+        ]
+    },
+
+    {
+        "nombre": "Centro - Dosquebradas",
+        "codigo": "R-02",
+        "path": [
+            [-75.6942,4.8135],
+            [-75.6910,4.8140],
+            [-75.6898,4.8174]
+        ]
+    },
+
+    {
+        "nombre": "Centro - UTP",
+        "codigo": "R-03",
+        "path": [
+            [-75.6942,4.8135],
+            [-75.6920,4.8070],
+            [-75.6885,4.7945]
+        ]
+    },
+
+    {
+        "nombre": "Centro - Santa Rosa",
+        "codigo": "R-04",
+        "path": [
+            [-75.6942,4.8135],
+            [-75.6700,4.8300],
+            [-75.6500,4.8500],
+            [-75.6231,4.8707]
+        ]
+    },
+
+    {
+        "nombre": "Dosquebradas - Frailes",
+        "codigo": "R-05",
+        "path": [
+            [-75.6898,4.8174],
+            [-75.6800,4.8260],
+            [-75.6700,4.8400]
+        ]
+    },
+
+    {
+        "nombre": "Centro - Villa Santana",
+        "codigo": "R-06",
+        "path": [
+            [-75.6942,4.8135],
+            [-75.6840,4.8120],
+            [-75.6710,4.8070]
+        ]
+    },
+
+    {
+        "nombre": "Centro - La Virginia",
+        "codigo": "R-07",
+        "path": [
+            [-75.6942,4.8135],
+            [-75.7600,4.8400],
+            [-75.8200,4.8700],
+            [-75.8830,4.8990]
+        ]
+    },
+
+    {
+        "nombre": "Centro - Marsella",
+        "codigo": "R-08",
+        "path": [
+            [-75.6942,4.8135],
+            [-75.7100,4.8600],
+            [-75.7250,4.9000],
+            [-75.7370,4.9370]
+        ]
+    },
+
+    {
+        "nombre": "Santa Rosa - Apía",
+        "codigo": "R-09",
+        "path": [
+            [-75.6231,4.8707],
+            [-75.7600,4.9500],
+            [-75.8500,5.0200],
+            [-75.9430,5.1060]
+        ]
+    },
+
+    {
+        "nombre": "Apía - Santuario",
+        "codigo": "R-10",
+        "path": [
+            [-75.9430,5.1060],
+            [-75.9550,5.0950],
+            [-75.9650,5.0800]
+        ]
+    },
+
+    {
+        "nombre": "Santuario - Belén",
+        "codigo": "R-11",
+        "path": [
+            [-75.9650,5.0800],
+            [-75.9200,5.1300],
+            [-75.8670,5.2000]
+        ]
+    },
+
+    {
+        "nombre": "Belén - Mistrató",
+        "codigo": "R-12",
+        "path": [
+            [-75.8670,5.2000],
+            [-75.8750,5.2500],
+            [-75.8830,5.2960]
+        ]
+    },
+
+    {
+        "nombre": "Mistrató - Pueblo Rico",
+        "codigo": "R-13",
+        "path": [
+            [-75.8830,5.2960],
+            [-75.9500,5.2700],
+            [-76.0360,5.2240]
+        ]
+    },
+
+    {
+        "nombre": "Anillo Metropolitano",
+        "codigo": "R-14",
+        "path": [
+            [-75.7310,4.7915],
+            [-75.6942,4.8135],
+            [-75.6898,4.8174],
+            [-75.6231,4.8707],
+            [-75.6942,4.8135]
+        ]
+    }
 ]
 
-for i, nombre in enumerate(rutas_base, start=1):
-
-    origen = random.choice(PARADAS)
-    destino = random.choice(PARADAS)
-
-    path = [
-        [origen[2], origen[1]],
-        [
-            (origen[2]+destino[2])/2,
-            (origen[1]+destino[1])/2
-        ],
-        [destino[2], destino[1]]
-    ]
+for ruta_data in RUTAS_REALES:
 
     ruta = RutaDB(
-        nombre=nombre,
-        codigo_ruta=f"R-{i:02d}",
+        nombre=ruta_data["nombre"],
+        codigo_ruta=ruta_data["codigo"],
         tarifa_base=random.randint(3000,7000),
-        geometria_ruta=json.dumps(path)
+        geometria_ruta=json.dumps(ruta_data["path"])
     )
 
     db.add(ruta)
 
 db.commit()
 
-print("✅ 14 rutas creadas")
+print("✅ 14 rutas metropolitanas creadas")
 
 # =========================
 # VEHÍCULOS
